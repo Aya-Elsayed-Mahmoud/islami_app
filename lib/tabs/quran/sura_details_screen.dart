@@ -9,7 +9,7 @@ class SuraDetailsScreen extends StatefulWidget {
   @override
   State<SuraDetailsScreen> createState() => _SuraDetailsScreenState();
 }
-
+//
 class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
   List<String> ayat = [];
   late SuraDetailsArgs args;
