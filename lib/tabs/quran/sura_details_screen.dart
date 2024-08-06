@@ -1,23 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:islami_app1/app_theme.dart';
 import 'package:islami_app1/tabs/quran/quran_tab.dart';
 
-class SuraDetailsScreen extends StatelessWidget {
+class SuraDetailsScreen extends StatefulWidget {
   static const String routeName = '/sura-details';
-  List<String> ayat = [
-    'بِسْمِ اللَّهِ الرَّحْمَنِ الرَّحِيمِ ',
-    'الْحَمْدُ لِلَّهِ رَبِّ الْعَالَمِينَ',
-    'الرَّحْمَنِ الرَّحِيمِ',
-    'مَالِكِ يَوْمِ الدِّينِ',
-    'إِيَّاكَ نَعْبُدُ وَإِيَّاكَ نَسْتَعِينُ',
-    'اهْدِنَا الصِّرَاطَ الْمُسْتَقِيمَ',
-    'صِرَاطَ الَّذِينَ أَنْعَمْتَ عَلَيْهِمْ غَيْرِ الْمَغْضُوبِ عَلَيْهِمْ وَلَا الضَّالِّين',
-  ];
 
   @override
+  State<SuraDetailsScreen> createState() => _SuraDetailsScreenState();
+}
+//
+class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
+  List<String> ayat = [];
+  late SuraDetailsArgs args;
+  @override
   Widget build(BuildContext context) {
-    SuraDetailsArgs args =
-        ModalRoute.of(context)!.settings.arguments as SuraDetailsArgs;
+    args = ModalRoute.of(context)!.settings.arguments as SuraDetailsArgs;
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
@@ -35,8 +33,10 @@ class SuraDetailsScreen extends StatelessWidget {
               color: AppTheme.white,
               borderRadius: BorderRadius.circular(25),
             ),
-            child: ListView.builder(
-              itemBuilder: (_, index) => Text(
+            child: ayat.isEmpty
+                ? Center(child: CircularProgressIndicator())
+                : ListView.builder(
+                    itemBuilder: (_, index) => Text(
                 ayat[index],
                 style: Theme.of(context).textTheme.titleLarge,
                 textAlign: TextAlign.center,
@@ -45,5 +45,12 @@ class SuraDetailsScreen extends StatelessWidget {
             ),
           ),
         ));
+  }
+
+  Future<void> loadSuraFile() async {
+    String sura =
+        await rootBundle.loadString('assets/files/${args.index + 1}.text');
+    ayat = sura.split('\r\n');
+    setState(() {});
   }
 }
