@@ -9,13 +9,14 @@ class SuraDetailsScreen extends StatefulWidget {
   @override
   State<SuraDetailsScreen> createState() => _SuraDetailsScreenState();
 }
-//
+
 class _SuraDetailsScreenState extends State<SuraDetailsScreen> {
   List<String> ayat = [];
   late SuraDetailsArgs args;
   @override
   Widget build(BuildContext context) {
     args = ModalRoute.of(context)!.settings.arguments as SuraDetailsArgs;
+    loadSuraFile();
     return Container(
         decoration: BoxDecoration(
           image: DecorationImage(
